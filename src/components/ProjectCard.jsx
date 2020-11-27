@@ -147,13 +147,15 @@ const ProjectCardImageContainer = styled("div")`
         transition: all 150ms ease-in-out;
     }
 
-    img {
+    .gatsby-image-wrapper {
         max-width: 400px;
         width: 100%;
+        height: 85%;
         box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.04);
 
         @media(max-width:${dimensions.maxwidthTablet}px) {
             max-width: 300px;
+            height: 100%;
         }
     }
 `
@@ -175,7 +177,7 @@ const ProjectCard = ({ category, title, description, thumbnail, uid}) => (
             </ProjectCardAction>
         </ProjectCardContent>
         <ProjectCardImageContainer className="ProjectCardImageContainer">
-            <Img fluid={thumbnail.localFile.childImageSharp.fluid}/>
+            <Img fluid={thumbnail.localFile.childImageSharp.fluid} imgStyle={{objectFit: "fill"}}/>
         </ProjectCardImageContainer>
     </ProjectCardContainer>
 )

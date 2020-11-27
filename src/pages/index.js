@@ -270,7 +270,7 @@ export const query = graphql`
             previewThumbnail {
               localFile {
                 childImageSharp {
-                  fluid(maxWidth: 450) {
+                  fluid {
                     ...GatsbyImageSharpFluid
                   }
                 }
@@ -279,7 +279,7 @@ export const query = graphql`
             heroImage {
               localFile {
                 childImageSharp {
-                  fluid(maxWidth: 450) {
+                  fluid {
                     ...GatsbyImageSharpFluid
                   }
                 }
