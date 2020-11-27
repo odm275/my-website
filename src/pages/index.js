@@ -140,7 +140,6 @@ const RenderBody = ({ home, projects, meta }) => {
     home.socialMedia3,
   ].filter(social => social !== null)
 
-  console.log("social media links", socialMediaLinks)
   return (
     <>
       <Helmet
@@ -207,8 +206,6 @@ const RenderBody = ({ home, projects, meta }) => {
 }
 
 export default ({ data }) => {
-  console.log(data)
-
   //Required check for no data being returned
   const home = data.homepage.ACFHomepageFields
   const projects = data.projects.edges
