@@ -24,13 +24,6 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
-      resolve: "gatsby-source-prismic-graphql",
-      options: {
-        repositoryName: "odm275-website", // (REQUIRED, replace with your own)
-        linkResolver: () => post => `/${post.uid}`,
-      },
-    },
-    {
       resolve: `gatsby-source-wordpress-experimental`,
       options: {
         /*
