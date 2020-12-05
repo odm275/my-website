@@ -7,6 +7,7 @@ import { RichText } from "prismic-reactjs"
 import styled from "@emotion/styled"
 import colors from "styles/colors"
 import Layout from "components/Layout"
+import parse from "html-react-parser"
 
 const PostHeroContainer = styled("div")`
   max-height: 500px;
@@ -146,7 +147,7 @@ const Post = ({ post, meta }) => {
           <PostHeroContainer>
             <img src={post.post_hero_image.url} alt="bees" />
             <PostHeroAnnotation>
-              {RichText.render(post.post_hero_annotation)}
+              {parse(post.post_hero_annotation)}
             </PostHeroAnnotation>
           </PostHeroContainer>
         )}
@@ -157,7 +158,41 @@ const Post = ({ post, meta }) => {
 }
 
 export default ({ data }) => {
-  const postContent = data.prismic.allPosts.edges[0].node
-  const meta = data.site.siteMetadata
-  return <Post post={postContent} meta={meta} />
+  console.log("data", data)
+  return <h1>million do9llah pussaiii</h1>
+  // const postContent = data.prismic.allPosts.edges[0].node
+  // return <Post post={postContent} />
 }
+
+export const query = graphql`
+  query PostQuery($slug: String) {
+    post: wpPost(slug: { eq: $slug }) {
+      title
+      author {
+        node {
+          firstName
+          lastName
+        }
+      }
+      kinds {
+        nodes {
+          name
+        }
+      }
+      ACFPostFields {
+        body
+        previewDescription
+        heroAnnotation
+        heroImage {
+          localFile {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`

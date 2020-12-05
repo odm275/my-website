@@ -23,20 +23,27 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
+      query PostsQuery {
+        posts: allWpPost {
+          edges {
+            node {
+              slug
+            }
+          }
+        }
+      }
     `)
   )
 
   const projectsList = result.data.projects.edges
 
-  // const postsList = result.data.prismic.allPosts.edges
+  const postsList = result.data.posts.edges
 
   const projectTemplate = require.resolve("./src/templates/project.jsx")
-  // const postTemplate = require.resolve("./src/templates/post.jsx")
+  const postTemplate = require.resolve("./src/templates/post.jsx")
 
   projectsList.forEach(({ node: { slug } }) => {
     // The slug you assigned in Wordpress is the slug!
-
-    console.log("edge", slug)
     createPage({
       path: `/work/${slug}`,
       component: projectTemplate,
@@ -47,15 +54,15 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  // postsList.forEach(edge => {
-  //   createPage({
-  //     type: "Project",
-  //     match: "/blog/:uid",
-  //     path: `/blog/${edge.node._meta.uid}`,
-  //     component: postTemplate,
-  //     context: {
-  //       uid: edge.node._meta.uid,
-  //     },
-  //   })
-  // })
+  postsList.forEach(({ node: { slug } }) => {
+    // The slug you assigned in Wordpress is the slug!
+    createPage({
+      path: `/blog/${slug}`,
+      component: postTemplate,
+      context: {
+        // Pass the unique slug through context so the template can filter by it
+        slug,
+      },
+    })
+  })
 }
