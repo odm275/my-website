@@ -77,33 +77,37 @@ const AboutActions = styled("div")`
   }
 `
 
-const About = ({ bio, socialLinks }) => (
-  <AboutContainer>
-    <AboutLinkContainer>
-      {socialLinks.map((social, i) => (
-        <AboutLink
-          key={i}
-          href={social.uri}
-          target={social.target}
-          rel="noopener noreferrer"
-        >
-          {social.title}
-          <span>&#8594;</span>
-        </AboutLink>
-      ))}
-    </AboutLinkContainer>
-    <AboutBio>{bio}</AboutBio>
-    <AboutActions>
-      <a
-        href="mailto:pomejia@gmail.com"
-        target="_blank"
+const About = ({ bio, socialLinks }) => {
+  const socialLinksUI = socialLinks.map((social, i) => {
+    console.log("uri", social)
+    return (
+      <AboutLink
+        key={i}
+        href={social.url}
+        target={social.target}
         rel="noopener noreferrer"
       >
-        <Button className="Button--secondary">Email me</Button>
-      </a>
-    </AboutActions>
-  </AboutContainer>
-)
+        {social.title}
+        <span>&#8594;</span>
+      </AboutLink>
+    )
+  })
+  return (
+    <AboutContainer>
+      <AboutLinkContainer>{socialLinksUI}</AboutLinkContainer>
+      <AboutBio>{bio}</AboutBio>
+      <AboutActions>
+        <a
+          href="mailto:pomejia@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button className="Button--secondary">Email me</Button>
+        </a>
+      </AboutActions>
+    </AboutContainer>
+  )
+}
 
 export default About
 

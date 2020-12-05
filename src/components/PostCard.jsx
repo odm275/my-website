@@ -39,6 +39,7 @@ const PostCardContainer = styled(Link)`
 const PostCategory = styled("h6")`
   font-weight: 600;
   color: ${colors.grey600};
+  margin-right: 2rem;
 `
 
 const PostTitle = styled("h3")`
@@ -86,6 +87,11 @@ const PostCardAction = styled("div")`
   }
 `
 
+const PostCategoriesContainer = styled("div")`
+  display: flex;
+  margin-right: 2rem;
+`
+
 const PostCard = ({ author, category, date, title, description, uid }) => {
   const postCategories = category.nodes.map(category => (
     <PostCategory>{category.name}</PostCategory>
@@ -93,7 +99,7 @@ const PostCard = ({ author, category, date, title, description, uid }) => {
   const authorName = `${author.node.firstName} ${author.node.lastName}`
   return (
     <PostCardContainer className="BlogPostCard" to={`/blog/${uid}`}>
-      {postCategories}
+      <PostCategoriesContainer>{postCategories}</PostCategoriesContainer>
       <PostTitle>{title}</PostTitle>
       <PostDescription>{parse(description)}</PostDescription>
       <PostCardAction className="PostCardAction">

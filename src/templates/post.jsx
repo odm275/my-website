@@ -162,7 +162,6 @@ const Post = ({ post, meta }) => {
 }
 
 export default ({ data }) => {
-  console.log("data", data)
   const { ACFPostFields, author, kinds, title, date } = data.post
   const postContent = { author, kinds, title, date, ...ACFPostFields }
   return <Post post={postContent} />
