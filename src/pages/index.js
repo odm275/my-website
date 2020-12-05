@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Helmet from "react-helmet"
-import { RichText } from "prismic-reactjs"
 import { graphql, Link } from "gatsby"
 import styled from "@emotion/styled"
 import colors from "styles/colors"
@@ -119,6 +118,46 @@ const WorkAction = styled(Link)`
 `
 
 const RenderBody = ({ home, projects, meta }) => {
+  const metaDataHelmet = (
+    <Helmet
+      title={meta.title}
+      meta={[
+        {
+          name: `description`,
+          content: meta.metaDesc,
+        },
+        {
+          property: `og:title`,
+          content: meta.title,
+        },
+        {
+          property: `og:description`,
+          content: meta.metaDesc,
+        },
+        {
+          property: `og:type`,
+          content: `website`,
+        },
+        {
+          name: `twitter:card`,
+          content: `summary`,
+        },
+        // {
+        //   name: `twitter:creator`,
+        //   content: meta.author,
+        // },
+        {
+          name: `twitter:title`,
+          content: meta.title,
+        },
+        {
+          name: `twitter:description`,
+          content: meta.metaDesc,
+        },
+      ].concat(meta)}
+    />
+  )
+
   const projectCards = projects.map((project, i) => {
     const { title, slug, kinds } = project.node
     const { previewThumbnail, description } = project.node.ACFProjectFields
@@ -142,44 +181,7 @@ const RenderBody = ({ home, projects, meta }) => {
 
   return (
     <>
-      <Helmet
-        title={meta.title}
-        titleTemplate={`%s | ${meta.title}`}
-        meta={[
-          {
-            name: `description`,
-            content: meta.description,
-          },
-          {
-            property: `og:title`,
-            content: meta.title,
-          },
-          {
-            property: `og:description`,
-            content: meta.description,
-          },
-          {
-            property: `og:type`,
-            content: `website`,
-          },
-          {
-            name: `twitter:card`,
-            content: `summary`,
-          },
-          {
-            name: `twitter:creator`,
-            content: meta.author,
-          },
-          {
-            name: `twitter:title`,
-            content: meta.title,
-          },
-          {
-            name: `twitter:description`,
-            content: meta.description,
-          },
-        ].concat(meta)}
-      />
+      {metaDataHelmet}
       <Hero>
         <div>{parse(home.intro)}</div>
 
@@ -208,8 +210,8 @@ const RenderBody = ({ home, projects, meta }) => {
 export default ({ data }) => {
   //Required check for no data being returned
   const home = data.homepage.ACFHomepageFields
+  const meta = data.homepage.seo
   const projects = data.projects.edges
-  const meta = data.site.siteMetadata
 
   if (!home || !projects) return null
 
@@ -229,6 +231,16 @@ RenderBody.propTypes = {
 export const query = graphql`
   query homepage {
     homepage: wpPage(slug: { eq: "homepage" }) {
+      seo {
+        metaDesc
+        metaKeywords
+        opengraphAuthor
+        title
+        twitterDescription
+        twitterImage {
+          sourceUrl
+        }
+      }
       ACFHomepageFields {
         about
         email
@@ -284,13 +296,6 @@ export const query = graphql`
             }
           }
         }
-      }
-    }
-    site {
-      siteMetadata {
-        title
-        description
-        author
       }
     }
   }
