@@ -26,7 +26,7 @@ const PostHeroContainer = styled("div")`
 const PostHeroAnnotation = styled("div")`
   padding-top: 0.25em;
 
-  h6 {
+  p {
     text-align: right;
     color: ${colors.grey600};
     font-weight: 400;
@@ -39,26 +39,15 @@ const PostHeroAnnotation = styled("div")`
 `
 
 const PostCategory = styled("div")`
-  max-width: 550px;
-  margin: 0 auto;
-  text-align: center;
+  margin-right: 2rem;
   font-weight: 600;
   color: ${colors.grey600};
-
-  h5 {
-    margin-top: 0;
-    margin-bottom: 1em;
-  }
 `
 
-const PostTitle = styled("div")`
+const PostTitle = styled("h1")`
   max-width: 550px;
   margin: 0 auto;
   text-align: center;
-
-  h1 {
-    margin-top: 0;
-  }
 `
 
 const PostBody = styled("div")`
@@ -94,9 +83,18 @@ const PostDate = styled("div")`
   margin: 0;
 `
 
+const PostCategoryContainer = styled("div")`
+  display: flex;
+
+  .category-container__category {
+  }
+`
+
 const Post = ({ post, meta }) => {
   const postCategories = post.kinds.nodes.map(kind => (
-    <PostCategory>{kind.name}</PostCategory>
+    <PostCategory className="category-container__category">
+      {kind.name}
+    </PostCategory>
   ))
   return (
     <>
@@ -139,7 +137,9 @@ const Post = ({ post, meta }) => {
       // ].concat(meta)}
       />
       <Layout>
-        {postCategories}
+        <PostCategoryContainer className="category-container">
+          {postCategories}
+        </PostCategoryContainer>
         <PostTitle>{post.title}</PostTitle>
         <PostMetas>
           <PostAuthor>{post.post_author}</PostAuthor>
@@ -162,6 +162,7 @@ const Post = ({ post, meta }) => {
 }
 
 export default ({ data }) => {
+  console.log("data", data)
   const { ACFPostFields, author, kinds, title, date } = data.post
   const postContent = { author, kinds, title, date, ...ACFPostFields }
   return <Post post={postContent} />
