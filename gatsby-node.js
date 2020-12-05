@@ -14,7 +14,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const result = await wrapper(
     graphql(`
-      query ProjectQuery {
+      query PageQueries {
         projects: allWpProject {
           edges {
             node {
@@ -22,8 +22,6 @@ exports.createPages = async ({ graphql, actions }) => {
             }
           }
         }
-      }
-      query PostsQuery {
         posts: allWpPost {
           edges {
             node {
@@ -36,7 +34,6 @@ exports.createPages = async ({ graphql, actions }) => {
   )
 
   const projectsList = result.data.projects.edges
-
   const postsList = result.data.posts.edges
 
   const projectTemplate = require.resolve("./src/templates/project.jsx")

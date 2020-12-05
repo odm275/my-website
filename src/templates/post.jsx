@@ -1,4 +1,5 @@
 import React from "react"
+import Img from "gatsby-image"
 import PropTypes from "prop-types"
 import Helmet from "react-helmet"
 import Moment from "react-moment"
@@ -94,6 +95,9 @@ const PostDate = styled("div")`
 `
 
 const Post = ({ post, meta }) => {
+  const postCategories = post.kinds.nodes.map(kind => (
+    <PostCategory>{kind.name}</PostCategory>
+  ))
   return (
     <>
       <Helmet
@@ -135,39 +139,39 @@ const Post = ({ post, meta }) => {
       // ].concat(meta)}
       />
       <Layout>
-        <PostCategory>{RichText.render(post.post_category)}</PostCategory>
-        <PostTitle>{RichText.render(post.post_title)}</PostTitle>
+        {postCategories}
+        <PostTitle>{post.title}</PostTitle>
         <PostMetas>
           <PostAuthor>{post.post_author}</PostAuthor>
           <PostDate>
-            <Moment format="MMMM D, YYYY">{post.post_date}</Moment>
+            <Moment format="MMMM D, YYYY">{post.date}</Moment>
           </PostDate>
         </PostMetas>
-        {post.post_hero_image && (
+        {post.heroImage && (
           <PostHeroContainer>
-            <img src={post.post_hero_image.url} alt="bees" />
+            <Img fluid={post.heroImage.localFile.childImageSharp.fluid} />
             <PostHeroAnnotation>
-              {parse(post.post_hero_annotation)}
+              {parse(post.heroAnnotation)}
             </PostHeroAnnotation>
           </PostHeroContainer>
         )}
-        <PostBody>{RichText.render(post.post_body)}</PostBody>
+        <PostBody>{parse(post.body)}</PostBody>
       </Layout>
     </>
   )
 }
 
 export default ({ data }) => {
-  console.log("data", data)
-  return <h1>million do9llah pussaiii</h1>
-  // const postContent = data.prismic.allPosts.edges[0].node
-  // return <Post post={postContent} />
+  const { ACFPostFields, author, kinds, title, date } = data.post
+  const postContent = { author, kinds, title, date, ...ACFPostFields }
+  return <Post post={postContent} />
 }
 
 export const query = graphql`
   query PostQuery($slug: String) {
     post: wpPost(slug: { eq: $slug }) {
       title
+      date
       author {
         node {
           firstName
