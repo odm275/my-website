@@ -44,42 +44,41 @@ const Blog = ({ posts, meta }) => {
   return (
     <>
       <Helmet
-        title={`Blog | Prist, Gatsby & Prismic Starter`}
-        titleTemplate={`%s | Blog | Prist, Gatsby & Prismic Starter`}
-        // meta={[
-        //   {
-        //     name: `description`,
-        //     content: meta.description,
-        //   },
-        //   {
-        //     property: `og:title`,
-        //     content: `Blog | Prist, Gatsby & Prismic Starter`,
-        //   },
-        //   {
-        //     property: `og:description`,
-        //     content: meta.description,
-        //   },
-        //   {
-        //     property: `og:type`,
-        //     content: `website`,
-        //   },
-        //   {
-        //     name: `twitter:card`,
-        //     content: `summary`,
-        //   },
-        //   {
-        //     name: `twitter:creator`,
-        //     content: meta.author,
-        //   },
-        //   {
-        //     name: `twitter:title`,
-        //     content: meta.title,
-        //   },
-        //   {
-        //     name: `twitter:description`,
-        //     content: meta.description,
-        //   },
-        // ].concat(meta)}
+        title={meta.title}
+        meta={[
+          {
+            name: `description`,
+            content: meta.metaDesc,
+          },
+          {
+            property: `og:title`,
+            content: meta.title,
+          },
+          {
+            property: `og:description`,
+            content: meta.metaDesc,
+          },
+          {
+            property: `og:type`,
+            content: `website`,
+          },
+          {
+            name: `twitter:card`,
+            content: `summary`,
+          },
+          // {
+          //   name: `twitter:creator`,
+          //   content: meta.author,
+          // },
+          {
+            name: `twitter:title`,
+            content: meta.title,
+          },
+          {
+            name: `twitter:description`,
+            content: meta.metaDesc,
+          },
+        ].concat(meta)}
       />
       <Layout>
         <BlogTitle>Blog</BlogTitle>
@@ -91,18 +90,31 @@ const Blog = ({ posts, meta }) => {
 
 export default ({ data }) => {
   const posts = data.posts
+  const meta = data.blog.seo
   if (!posts) return null
 
-  return <Blog posts={posts} />
+  return <Blog posts={posts} meta={meta} />
 }
 
-// Blog.propTypes = {
-//     posts: PropTypes.array.isRequired,
-//     meta: PropTypes.object.isRequired,
-// };
+Blog.propTypes = {
+  posts: PropTypes.array.isRequired,
+  meta: PropTypes.object.isRequired,
+}
 
 export const query = graphql`
   query ProjectsQuery {
+    blog: wpPage(slug: { eq: "blog" }) {
+      seo {
+        metaDesc
+        metaKeywords
+        opengraphAuthor
+        title
+        twitterDescription
+        twitterImage {
+          sourceUrl
+        }
+      }
+    }
     posts: allWpPost {
       edges {
         node {

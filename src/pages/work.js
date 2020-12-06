@@ -30,20 +30,19 @@ const Work = ({ projects, meta }) => {
   return (
     <>
       <Helmet
-        title={`Work | Prist, Gatsby & Prismic Starter`}
-        titleTemplate={`%s | Work | Prist, Gatsby & Prismic Starter`}
+        title={meta.title}
         meta={[
           {
             name: `description`,
-            content: meta.description,
+            content: meta.metaDesc,
           },
           {
             property: `og:title`,
-            content: `Work | Prist, Gatsby & Prismic Starter`,
+            content: meta.title,
           },
           {
             property: `og:description`,
-            content: meta.description,
+            content: meta.metaDesc,
           },
           {
             property: `og:type`,
@@ -53,17 +52,17 @@ const Work = ({ projects, meta }) => {
             name: `twitter:card`,
             content: `summary`,
           },
-          {
-            name: `twitter:creator`,
-            content: meta.author,
-          },
+          // {
+          //   name: `twitter:creator`,
+          //   content: meta.author,
+          // },
           {
             name: `twitter:title`,
             content: meta.title,
           },
           {
             name: `twitter:description`,
-            content: meta.description,
+            content: meta.metaDesc,
           },
         ].concat(meta)}
       />
@@ -77,7 +76,7 @@ const Work = ({ projects, meta }) => {
 
 export default ({ data }) => {
   const projects = data.projects.edges
-  const meta = data.site.siteMetadata
+  const meta = data.work.seo
   if (!projects) return null
 
   return <Work projects={projects} meta={meta} />
@@ -88,7 +87,19 @@ Work.propTypes = {
 }
 
 export const query = graphql`
-  {
+  query WorkPage {
+    work: wpPage(slug: { eq: "work" }) {
+      seo {
+        metaDesc
+        metaKeywords
+        opengraphAuthor
+        title
+        twitterDescription
+        twitterImage {
+          sourceUrl
+        }
+      }
+    }
     projects: allWpProject {
       edges {
         node {
@@ -123,13 +134,6 @@ export const query = graphql`
             }
           }
         }
-      }
-    }
-    site {
-      siteMetadata {
-        title
-        description
-        author
       }
     }
   }
