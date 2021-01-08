@@ -25,19 +25,7 @@ module.exports = {
          * The full URL of the WordPress site's GraphQL API.
          * Example : 'https://www.example-site.com/graphql'
          */
-        url: `http://myemergencysite.local/wp/graphql`,
-      },
-    },
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `gatsby-prismic-starter-prist`,
-        short_name: `prist`,
-        start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
-        display: `minimal-ui`,
-        icon: `src/images/favicon.ico`, // This path is relative to the root of the site.
+        url: `https://wp.whatoscarhasmade.com/wp/graphql`,
       },
     },
     // https://www.gatsbyjs.org/packages/gatsby-plugin-google-analytics/

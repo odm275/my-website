@@ -36,6 +36,10 @@ const ProjectTitle = styled("h2")`
   margin-bottom: 2rem;
 `
 
+const SkillsSectionTitle = styled("h3")`
+  text-align: center;
+`
+
 const ProjectBody = styled("div")`
   max-width: 550px;
   margin: 0 auto;
@@ -56,7 +60,22 @@ const WorkLink = styled(Link)`
   text-align: center;
 `
 
+const SkillsWrapper = styled("div")`
+  display: flex;
+  flex-wrap: wrap;
+`
+const Skill = styled("div")`
+  flex: 0 0 33%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+`
+
 const Project = ({ project }) => {
+  console.log("kinds", project.kinds)
+  const skills = project.kinds.map(kind => {
+    return <Skill>{kind.name}</Skill>
+  })
+
   return (
     <>
       <Helmet
@@ -106,6 +125,8 @@ const Project = ({ project }) => {
         )}
         <ProjectBody>
           {parse(project.description)}
+          <SkillsSectionTitle>Skills + Technology</SkillsSectionTitle>
+          <SkillsWrapper>{skills}</SkillsWrapper>
           <WorkLink to={"/work"}>
             <Button className="Button--secondary">See other work</Button>
           </WorkLink>
@@ -129,6 +150,14 @@ export const query = graphql`
       title
       ACFProjectFields {
         description
+        featuredFeatureBody1
+        featuredFeatureBody2
+        featuredFeatureTitle1
+        featuredFeatureTitle2
+        fieldGroupName
+        kinds {
+          name
+        }
         heroImage {
           localFile {
             childImageSharp {
