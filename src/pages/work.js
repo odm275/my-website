@@ -13,14 +13,17 @@ const WorkTitle = styled("h1")`
 const Work = ({ projects, meta }) => {
   const projectCards = projects.map((project, i) => {
     const { title, slug, kinds } = project.node
-    const { previewThumbnail, description } = project.node.ACFProjectFields
+    const {
+      previewThumbnail,
+      previewDescription,
+    } = project.node.ACFProjectFields
 
     return (
       <ProjectCard
         key={i}
         category={kinds}
         title={title}
-        description={description}
+        description={previewDescription}
         thumbnail={previewThumbnail}
         uid={slug}
       />

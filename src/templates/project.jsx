@@ -8,6 +8,7 @@ import { Link, graphql } from "gatsby"
 import Button from "components/_ui/Button"
 import Layout from "components/Layout"
 import parse from "html-react-parser"
+import { FiGithub } from "react-icons/fi"
 
 // Gatsby Image is weird and    width: 100%;
 // height: 85%; in .gatsby-image-wrapper
@@ -70,8 +71,13 @@ const Skill = styled("div")`
   padding-bottom: 0.5em;
 `
 
+const SocialMediaContainer = styled("div")`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`
+
 const Project = ({ project }) => {
-  console.log("kinds", project.kinds)
   const skills = project.kinds.map(kind => {
     return <Skill>{kind.name}</Skill>
   })
@@ -118,6 +124,21 @@ const Project = ({ project }) => {
       />
       <Layout>
         <ProjectTitle>{project.title}</ProjectTitle>
+        <SocialMediaContainer>
+          <a href={project.gitRepo} target="_blank">
+            <FiGithub />
+          </a>
+          <a
+            css={{
+              paddingLeft: "20px",
+              textDecoration: "none",
+            }}
+            href={project.liveLink}
+            target="_blank"
+          >
+            Live Link
+          </a>
+        </SocialMediaContainer>
         {project.heroImage && (
           <ProjectHeroContainer>
             <Img fluid={project.heroImage.localFile.childImageSharp.fluid} />
@@ -125,6 +146,7 @@ const Project = ({ project }) => {
         )}
         <ProjectBody>
           {parse(project.description)}
+
           <SkillsSectionTitle>Skills + Technology</SkillsSectionTitle>
           <SkillsWrapper>{skills}</SkillsWrapper>
           <WorkLink to={"/work"}>
@@ -150,11 +172,9 @@ export const query = graphql`
       title
       ACFProjectFields {
         description
-        featuredFeatureBody1
-        featuredFeatureBody2
-        featuredFeatureTitle1
-        featuredFeatureTitle2
         fieldGroupName
+        liveLink
+        gitRepo
         kinds {
           name
         }
