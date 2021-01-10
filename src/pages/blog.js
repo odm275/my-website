@@ -36,7 +36,7 @@ const Blog = ({ posts, meta }) => {
         category={node.kinds}
         title={node.title}
         date={node.date}
-        description={node.ACFPostFields.body}
+        description={node.ACFPostFields.previewDescription}
         uid={node.slug}
       />
     )
@@ -133,6 +133,7 @@ export const query = graphql`
           }
           ACFPostFields {
             body
+            previewDescription
           }
           slug
         }

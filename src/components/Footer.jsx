@@ -52,7 +52,7 @@ const FooterRocket = styled("img")`
 
 const Footer = () => (
   <FooterContainer>
-    <FooterAuthor href="https://www.marguerite.io/?utm_source=prist&utm_medium=footer&utm_campaign=prist_starter">
+    <FooterAuthor href="https://whatoscarhasmade.com">
       © {new Date().getFullYear()} — Oscar Mejia
       <FooterRocket className="FooterRocket" src={rocket} />
     </FooterAuthor>
